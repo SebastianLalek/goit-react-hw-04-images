@@ -16,6 +16,7 @@ function ImageFinder() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [error, setError] = useState('');
+  const [modalImage, setModalImage] = useState('');
 
   const getImages = async (query, page) => {
     const URL = 'https://pixabay.com/api/';
@@ -71,16 +72,24 @@ function ImageFinder() {
   }, [searchQuery, currentPage]);
 
   const imageHandler = e => {
-    console.log(e);
+    const largeImage = e.target.dataset.image;
+
+    if (largeImage === undefined) {
+      return;
+    }
+
+    setModalImage(largeImage);
+    setModalOn(true);
   };
-  const modalImage = e => {
-    console.log(e);
-  };
+
   const handleClick = () => {
     setCurrentPage(currentPage + 1);
   };
+
   const modalHandler = e => {
-    console.log(e);
+    if (e.target.className === 'Overlay') {
+      setModalOn(false);
+    }
   };
 
   return (
