@@ -1,15 +1,17 @@
 import axios from 'axios';
-
 import React, { useEffect, useState } from 'react';
+import Notiflix from 'notiflix';
+
+// components
 import Searchbar from './searchbar/Seachbar';
 import ImageGallery from './imagegallery/ImageGallery';
 import ImageGalleryItem from './imagegalerryitem/ImageGalleryItem';
 import Loader from './loader/Loader';
 import Button from './button/Button';
 import Modal from './modal/Modal';
-import Notiflix from 'notiflix';
 
 function ImageFinder() {
+  // states
   const [pictures, setPictures] = useState([]);
   const [modalOn, setModalOn] = useState(false);
   const [isLoading, setisLoading] = useState(false);
@@ -19,6 +21,7 @@ function ImageFinder() {
   const [error, setError] = useState('');
   const [modalImage, setModalImage] = useState('');
 
+  // API request
   const getImages = async (query, page) => {
     const URL = 'https://pixabay.com/api/';
 
@@ -46,11 +49,9 @@ function ImageFinder() {
         .then(response => response.data);
 
       const totalHits = result.totalHits;
-
       setTotalPictures(totalHits);
 
       const photos = await result.hits;
-
       setPictures(pictures => [...pictures, ...photos]);
     } catch (err) {
       setError(err.toString());
@@ -59,30 +60,19 @@ function ImageFinder() {
     }
   };
 
+  // event handlers
+
   const handleSubmit = e => {
     e.preventDefault();
-
     const query = e.target.query.value;
 
     setSearchQuery(query);
-
     setPictures([]);
     setCurrentPage(1);
   };
 
-  useEffect(() => {
-    getImages(searchQuery, currentPage);
-  }, [searchQuery, currentPage]);
-
-  useEffect(() => {
-    if (error !== '') {
-      Notiflix.Notify.failure(error);
-    }
-  }, [error]);
-
   const imageHandler = e => {
     const largeImage = e.target.dataset.image;
-
     if (largeImage === undefined) {
       return;
     }
@@ -100,6 +90,18 @@ function ImageFinder() {
       setModalOn(false);
     }
   };
+
+  // use effects
+
+  useEffect(() => {
+    getImages(searchQuery, currentPage);
+  }, [searchQuery, currentPage]);
+
+  useEffect(() => {
+    if (error !== '') {
+      Notiflix.Notify.failure(error);
+    }
+  }, [error]);
 
   return (
     <>
