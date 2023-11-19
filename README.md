@@ -23,4 +23,4 @@ If not start automatically, go to http://localhost:3000/ in your web browser.
 ## Demo
 
 To see working demo go to
-https://sebastianlalek.github.io/goit-react-hw-04-image-finder/
+https://sebastianlalek.github.io/goit-react-hw-04-image/
